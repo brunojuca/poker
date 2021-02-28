@@ -14,7 +14,8 @@
   Poker Chips Manager
 
   <script type="text/javascript">
-    var socket = io("http://localhost:8080");
+    const PORT = process.env.PORT || 8080;
+    var socket = io(`http://localhost:${PORT}`);
   </script>
 </body>
 </html>
