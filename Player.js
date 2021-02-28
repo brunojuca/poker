@@ -1,8 +1,6 @@
 class Player {
 
-  static idCount = 0;
-
-  constructor(name, initialChips) {
+  constructor(id, name, initialChips) {
     this.id = Player.idCount++;
     this.name = name;
     this.chips = initialChips;
