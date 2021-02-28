@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app); 
 const io = require("socket.io")(server)
+const PORT = process.env.PORT || 8080;
 
 app.use(express.static("./public"));
 app.set("views", "./public");
@@ -12,7 +13,7 @@ app.use("/", (req, res) => {
   res.render("index.html");
 });
 
-server.listen(8080, () => console.log("Listening on port 8080"));
+server.listen(PORT, () => console.log("Server running"));
 
 io.on("connection", socket => {
   console.log(`Socket conectado, id = ${socket.id}`);
