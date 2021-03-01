@@ -28,6 +28,7 @@ class PokerGame {
     if (!this.state.players.length) {
       this.state.players.push(newPlayer);
       this.state.turn = id;
+      newPlayer.turn = true;
     } else {
       this.state.players.push(newPlayer);
     }
@@ -56,10 +57,11 @@ class PokerGame {
     if(player.id == id) {
       console.log(`player${id} bets ${value}`);
       this.state.pot += player.bet(value);
-    
-    this.state.players.push(this.state.players.shift()); //pushes first to end of array
-    console.log(this.state.players[0].id);
-    this.state.turn = this.state.players[0].id;
+      player.turn=false;
+      this.state.players.push(this.state.players.shift()); //pushes first to end of array
+      console.log(this.state.players[0].id);
+      this.state.turn = this.state.players[0].id;
+      this.state.players[0].turn = true;
     }
   }
 

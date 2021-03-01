@@ -18,17 +18,9 @@
     Poker Chips Manager
 
     <div id="players" class="player-container">
-      <div id="player-1" class="player">
-        <p id="player-name" class="player-name">Marco</p>
-        <p id="player-chips" class="player-chips">1000</p>
-      </div>
-      <div id="player2" class="player">
-        <p id="player2-name" class="player-name">Marco</p>
-        <p id="player2-chips" class="player-chips">1000</p>
-      </div>
     </div>
 
-    <h1 id="pot" class="pot">Pote: R$0,00</h1>
+    <h1 id="pot" class="pot">Pot: R$0,00</h1>
 
     <div id="my-player-container" class="player-container">
       <div id="my-player" class="player">
@@ -39,11 +31,8 @@
       </div>
     </div>
 
-    
-
     <script type="text/javascript">
-      const PORT = 8080;
-      var socket = io(`http://localhost:8080`);
+      var socket = io("https://pokerchipsmanager.herokuapp.com/");
       var gameState = {};
 
       socket.on("initial-state", function(state) {
@@ -90,7 +79,7 @@
         myPlayerDiv.appendChild(pChips);
         pName.id = player.id + "-name";
         pChips.id = player.id + "-chips";
-        pName.innerHTML = player.name;
+        pName.innerHTML = player.name + (player.turn ? " *" : "");
         pChips.innerHTML = player.chips;
       }
 
@@ -105,7 +94,7 @@
         newPlayerDiv.appendChild(pChips);
         pName.id = player.id + "-name";
         pChips.id = player.id + "-chips";
-        pName.innerHTML = player.name;
+        pName.innerHTML = player.name + (player.turn ? " *" : "");
         pChips.innerHTML = player.chips;
       }
 
@@ -116,7 +105,7 @@
       function updatePlayer(player) {
         const pName = document.getElementById(player.id + "-name");
         const pChips = document.getElementById(player.id + "-chips");
-        pName.innerHTML = player.name;
+        pName.innerHTML = player.name + (player.turn ? " *" : "");
         pChips.innerHTML = player.chips;
       }
 

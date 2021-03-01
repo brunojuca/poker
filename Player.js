@@ -6,6 +6,7 @@ class Player {
     this.id = id;
     this.name = name;
     this.chips = initialChips;
+    this.turn = false;
   }
 
   bet(value) {
