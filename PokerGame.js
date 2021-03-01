@@ -2,35 +2,70 @@ const Player = require("./Player.js");
 
 class PokerGame {
 
-  static idCount = 0; 
+  static idCount = 0;
+
+  state = {
+    smallBlind: 0,
+    bigBlind: 0,
+    players: [],
+    turn: null,
+    pot: 0,
+  }
 
   constructor(maxPlayers, initialChips, smallBlind) {
     this.id = PokerGame.idCount++;
     this.maxPlayers = maxPlayers;
     this.initialChips = initialChips;
-    this.smallBlind = smallBlind;
-    this.bigBlind = 2*smallBlind;
-    this.players = new Array(maxPlayers);
+    this.state.smallBlind = smallBlind;
+    this.state.bigBlind = 2*smallBlind;
+    this.state.players = [];
+    this.state.turn = null;
+    this.state.pot = 0;
   }
 
   addPlayer(id, name) {
-    this.players.push(new Player(name, this.initialChips))
+    const newPlayer = new Player(id, name, this.initialChips);
+    if (!this.state.players.length) {
+      this.state.players.push(newPlayer);
+      this.state.turn = id;
+    } else {
+      this.state.players.push(newPlayer);
+    }
+    return newPlayer.id;
   }
 
   removePlayer(id) {
-    this.players.map((player, i) => {
+    this.state.players.map((player, i) => {
       if (player.id == id)
-        this.players.splice(i, 1);
+        this.state.players.splice(i, 1);
     });
   }
 
   getPlayers() {
     const players = [];
-    this.players.map((player) => players.push({
+    this.state.players.map((player) => players.push({
       id: player.id,
       name: player.name
     }));
     return players;
   }
+
+  getState() {
+    return this.state;
+  }
+
+  placeBet(id, value) {
+    const player = this.state.players[0];
+
+    if(player.id == id) {
+      console.log(`player${id} bets ${value}`);
+      this.state.pot += player.bet(value);
+    
+    this.state.players.push(this.state.players.shift()); //pushes first to end of array
+    console.log(this.state.players[0].id);
+    this.state.turn = this.state.players[0].id;
+    }
+  }
+
 }
 module.exports = PokerGame;

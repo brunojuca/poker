@@ -13,9 +13,40 @@
 <body>
   Poker Chips Manager
 
+  <h1 id="pot">Pote: R$0,00</h1>
+
+  <div id="bet-log"></div>
+
+  <form id="bet-form" onsubmit="submitbet(event)">
+    <input type="number" name="bet" placeholder="Valor da aposta" />
+    <button type="submit">Enviar</button>
+  </form>
+
   <script type="text/javascript">
-    const PORT = process.env.PORT || 8080;
-    var socket = io(`http://localhost:${PORT}`);
+    const PORT = 8080;
+    var socket = io(`http://localhost:8080`);
+
+    socket.on("state-update", function(state) {
+      console.log(state);
+      update(state);
+    });
+
+    function update(state) {
+      console.log(state);
+      const pot = document.getElementById("pot");
+      pot.innerHTML = `Pote: R$${state.pot.toFixed(2)}`
+    }
+
+    function submitbet(event) {
+      event.preventDefault();
+
+      const bet = {
+        id: 0,
+        value: event.target[0].value,
+      }
+      console.log(bet);
+      socket.emit("bet", bet);
+    }
   </script>
 </body>
 </html>

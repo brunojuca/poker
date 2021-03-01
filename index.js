@@ -15,18 +15,25 @@ app.use("/", (req, res) => {
 
 server.listen(PORT, () => console.log("Server running"));
 
-io.on("connection", socket => {
-  console.log(`Socket conectado, id = ${socket.id}`);
-});
-
 const PokerGame = require("./PokerGame.js");
 
 
 const game = new PokerGame(4, 1000, 10);
 
-game.addPlayer("nome1");
-game.addPlayer("nome2");
+io.on("connection", socket => {
+  console.log(`Socket conectado, id = ${socket.id}`);
+  game.addPlayer(socket.id, `Jogador-${socket.id}`);
+  console.log(game.getState());
+  socket.emit("state-update", game.getState());
 
+  socket.on("bet", data => {
+    game.placeBet(socket.id, parseInt(data.value));
+    io.emit("state-update", game.getState());
+    console.log(game.getState());
+  });
 
-
-app.get('/newgame',(req, res) => res.send(game.getPlayers()));
+  socket.on("disconnect", () => {
+    game.removePlayer(socket.id);
+    console.log(game.getState());
+  });
+});
