@@ -41,13 +41,9 @@ class PokerGame {
     });
   }
 
-  getPlayers() {
-    const players = [];
-    this.state.players.map((player) => players.push({
-      id: player.id,
-      name: player.name
-    }));
-    return players;
+  getPlayer(id) {
+    const player = this.state.players.find((player) => player.id == id );
+    return player;
   }
 
   getState() {

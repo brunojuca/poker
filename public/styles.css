@@ -1,0 +1,21 @@
+div.player-container {
+  background-color: aqua;
+  display: flex;
+  justify-content: space-around;
+}
+
+div.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+#my-player-container {
+  background-color: blueviolet;
+}
+
+h1.pot {
+  display: flex;
+  justify-content: center;
+}
